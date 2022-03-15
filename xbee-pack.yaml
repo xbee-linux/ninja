@@ -1,0 +1,35 @@
+schema-version: 1.0
+
+type: builder
+
+description: |
+  Ninja is a small build system with a focus on speed.
+  Installed programs: ninja
+  Short Descriptions: 
+    ninja: is the Ninja build system
+
+in:
+  version: 1.10.2
+
+dependencies:
+  - python3
+  - re2c
+
+
+provision:
+  - url:
+      from: https://github.com/ninja-build/ninja/archive/v1.10.2/ninja-{% version %}.tar.gz
+      todir: "{% xbeeSrc %}"
+  - folder: "{% xbeeOut %}/usr/bin"
+
+build:
+  - shell: 
+     resource: patch.sh
+     directory: "{% xbeeSrc %}/ninja-{% version %}"
+  - shell: 
+     cmds:
+        - python3 configure.py --bootstrap
+        - install -vm755 ninja {% xbeeOut %}/usr/bin
+        - install -vDm644 misc/bash-completion {% xbeeOut %}/usr/share/bash-completion/completions/ninja
+        - install -vDm644 misc/zsh-completion  {% xbeeOut %}/usr/share/zsh/site-functions/_ninja
+     directory: "{% xbeeSrc %}/ninja-{% version %}"
