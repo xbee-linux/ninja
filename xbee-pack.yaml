@@ -8,8 +8,8 @@ description: |
   Short Descriptions: 
     ninja: is the Ninja build system
 
-in:
-  version: 1.10.2
+var:
+  version: 1.11.1
 
 dependencies:
   - python3
@@ -18,18 +18,18 @@ dependencies:
 
 provision:
   - url:
-      from: https://github.com/ninja-build/ninja/archive/v1.10.2/ninja-{% version %}.tar.gz
-      todir: "{% xbeeSrc %}"
-  - folder: "{% xbeeOut %}/usr/bin"
+      from: https://github.com/ninja-build/ninja/archive/v{{ .version }}/ninja-{{ .version }}.tar.gz
+      todir: "{{ .xbee.src }}"
+  - folder: "{{ .xbee.out }}/usr/bin"
 
 build:
   - shell: 
      resource: patch.sh
-     directory: "{% xbeeSrc %}/ninja-{% version %}"
+     directory: "{{ .xbee.src }}/ninja-{{ .version }}"
   - shell: 
      cmds:
         - python3 configure.py --bootstrap
-        - install -vm755 ninja {% xbeeOut %}/usr/bin
-        - install -vDm644 misc/bash-completion {% xbeeOut %}/usr/share/bash-completion/completions/ninja
-        - install -vDm644 misc/zsh-completion  {% xbeeOut %}/usr/share/zsh/site-functions/_ninja
-     directory: "{% xbeeSrc %}/ninja-{% version %}"
+        - install -vm755 ninja {{ .xbee.out }}/usr/bin
+        - install -vDm644 misc/bash-completion {{ .xbee.out }}/usr/share/bash-completion/completions/ninja
+        - install -vDm644 misc/zsh-completion  {{ .xbee.out }}/usr/share/zsh/site-functions/_ninja
+     directory: "{{ .xbee.src }}/ninja-{{ .version }}"
