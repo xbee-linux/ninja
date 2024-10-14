@@ -10,10 +10,9 @@ var:
   xbee:
     version: 1.11.1
 
-dependency:
-  - python3
-  - re2c
+dependency: python3
 
+builder: re2c
 
 provision:
   - url:
